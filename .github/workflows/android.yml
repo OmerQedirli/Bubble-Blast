@@ -1,0 +1,19 @@
+name: APK Yigici
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Buildozer ile APK hazirla
+        uses: ArtemSBulgakov/buildozer-action@v1
+        with:
+          buildozer_version: master
+          command: buildozer android debug
+          repository_read_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Hazir APK-ni mene ver
+        uses: actions/upload-artifact@v2
+        with:
+          name: oyunun-apk-fayli
+          path: bin/*.apk
